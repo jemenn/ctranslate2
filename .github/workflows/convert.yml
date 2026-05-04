@@ -1,0 +1,32 @@
+name: Convert Model to CT2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install dependencies
+      run: pip install ctranslate2 sentencepiece huggingface_hub
+
+    - name: Download model
+      run: |
+        python3 -c "import base64; exec(base64.b64decode('CmltcG9ydCBvcwpvcy5lbnZpcm9uWydIRl9FTkRQT0lOVCddID0gJ2h0dHBzOi8vaGYtbWlycm9yLmNvbScKZnJvbSBodWdnaW5nZmFjZV9odWIgaW1wb3J0IHNuYXBzaG90X2Rvd25sb2FkCnNuYXBzaG90X2Rvd25sb2FkKCdIZWxzaW5raS1OTFAvb3B1cy1tdC1lbi16aCcsIGxvY2FsX2Rpcj0nb3B1cy1tdC1lbi16aCcpCnByaW50KCdkb25lJykKaW1wb3J0IG9zCmZvciBmIGluIG9zLmxpc3RkaXIoJ29wdXMtbXQtZW4temgnKToKICAgIHByaW50KGYpCg==').decode())"
+        ls -lh opus-mt-en-zh/
+
+    - name: Convert to CTranslate2 format
+      run: |
+        ct2-opus-mt-converter \
+          --model_dir opus-mt-en-zh \
+          --output_dir opus-mt-en-zh-ct2 \
+          --quantization int8
+        echo "done" && ls -lh opus-mt-en-zh-ct2/
+
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: opus-mt-en-zh-ct2
+        path: opus-mt-en-zh-ct2/
+        retention-days: 7
