@@ -9,20 +9,17 @@ jobs:
 
     steps:
     - name: Install dependencies
-      run: pip install ctranslate2 sentencepiece huggingface_hub
+      run: |
+        pip install ctranslate2 sentencepiece huggingface_hub transformers torch
 
     - name: Download model
       run: |
-        python3 -c "import base64; exec(base64.b64decode('CmltcG9ydCBvcwpvcy5lbnZpcm9uWydIRl9FTkRQT0lOVCddID0gJ2h0dHBzOi8vaGYtbWlycm9yLmNvbScKZnJvbSBodWdnaW5nZmFjZV9odWIgaW1wb3J0IHNuYXBzaG90X2Rvd25sb2FkCnNuYXBzaG90X2Rvd25sb2FkKCdIZWxzaW5raS1OTFAvb3B1cy1tdC1lbi16aCcsIGxvY2FsX2Rpcj0nb3B1cy1tdC1lbi16aCcpCnByaW50KCdkb25lJykKaW1wb3J0IG9zCmZvciBmIGluIG9zLmxpc3RkaXIoJ29wdXMtbXQtZW4temgnKToKICAgIHByaW50KGYpCg==').decode())"
-        ls -lh opus-mt-en-zh/
+        python3 -c "import base64; exec(base64.b64decode('CmltcG9ydCBvcwpvcy5lbnZpcm9uWydIRl9FTkRQT0lOVCddID0gJ2h0dHBzOi8vaGYtbWlycm9yLmNvbScKZnJvbSBodWdnaW5nZmFjZV9odWIgaW1wb3J0IHNuYXBzaG90X2Rvd25sb2FkCnNuYXBzaG90X2Rvd25sb2FkKCdIZWxzaW5raS1OTFAvb3B1cy1tdC1lbi16aCcsIGxvY2FsX2Rpcj0nb3B1cy1tdC1lbi16aCcpCnByaW50KCfkuIvovb3lrozmiJAnKQo=').decode())"
+        ls opus-mt-en-zh/
 
     - name: Convert to CTranslate2 format
       run: |
-        ct2-opus-mt-converter \
-          --model_dir opus-mt-en-zh \
-          --output_dir opus-mt-en-zh-ct2 \
-          --quantization int8
-        echo "done" && ls -lh opus-mt-en-zh-ct2/
+        python3 -c "import base64; exec(base64.b64decode('CmZyb20gY3RyYW5zbGF0ZTIuY29udmVydGVycyBpbXBvcnQgT3B1c01UQ29udmVydGVyCmltcG9ydCBjdHJhbnNsYXRlMgoKIyDnlKggdHJhbnNmb3JtZXJzIOagvOW8j+i9rOaNou+8iOS4jemcgOimgSBkZWNvZGVyLnltbO+8iQppbXBvcnQgc3VicHJvY2Vzcywgc3lzCnN1YnByb2Nlc3MucnVuKFtzeXMuZXhlY3V0YWJsZSwgJy1tJywgJ3BpcCcsICdpbnN0YWxsJywgJ3RyYW5zZm9ybWVycycsICd0b3JjaCddLCBjaGVjaz1UcnVlKQoKZnJvbSB0cmFuc2Zvcm1lcnMgaW1wb3J0IE1hcmlhbk1UTW9kZWwsIE1hcmlhblRva2VuaXplcgppbXBvcnQgY3RyYW5zbGF0ZTIKCm1vZGVsID0gTWFyaWFuTVRNb2RlbC5mcm9tX3ByZXRyYWluZWQoJ29wdXMtbXQtZW4temgnKQp0b2tlbml6ZXIgPSBNYXJpYW5Ub2tlbml6ZXIuZnJvbV9wcmV0cmFpbmVkKCdvcHVzLW10LWVuLXpoJykKCiMg55SoIGN0cmFuc2xhdGUyIOeahCB0cmFuc2Zvcm1lcnMg6L2s5o2i5ZmoCmNvbnZlcnRlciA9IGN0cmFuc2xhdGUyLmNvbnZlcnRlcnMuT3B1c01UQ29udmVydGVyKCdvcHVzLW10LWVuLXpoJykKY29udmVydGVyLmNvbnZlcnQoJ29wdXMtbXQtZW4temgtY3QyJywgcXVhbnRpemF0aW9uPSdpbnQ4JywgZm9yY2U9VHJ1ZSkKcHJpbnQoJ+i9rOaNouWujOaIkCcpCmltcG9ydCBvcwpmb3IgZiBpbiBvcy5saXN0ZGlyKCdvcHVzLW10LWVuLXpoLWN0MicpOgogICAgc3ogPSBvcy5wYXRoLmdldHNpemUoZidvcHVzLW10LWVuLXpoLWN0Mi97Zn0nKQogICAgcHJpbnQoZicgIHtmfToge3N6Ly8xMDI0fUtCJykK').decode())"
 
     - name: Upload
       uses: actions/upload-artifact@v4
