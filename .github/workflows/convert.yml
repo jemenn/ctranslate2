@@ -9,7 +9,10 @@ jobs:
 
     steps:
     - name: Install dependencies
-      run: pip install ctranslate2 sentencepiece huggingface_hub transformers torch
+      run: pip install "ctranslate2==4.3.1" sentencepiece huggingface_hub transformers torch
+
+    - name: Show CT2 version
+      run: python3 -c "import ctranslate2; print('CT2 version:', ctranslate2.__version__)"
 
     - name: Download model
       run: python3 -c "import base64; exec(base64.b64decode('CmltcG9ydCBvcwpvcy5lbnZpcm9uWydIRl9FTkRQT0lOVCddID0gJ2h0dHBzOi8vaGYtbWlycm9yLmNvbScKZnJvbSBodWdnaW5nZmFjZV9odWIgaW1wb3J0IHNuYXBzaG90X2Rvd25sb2FkCnNuYXBzaG90X2Rvd25sb2FkKCdIZWxzaW5raS1OTFAvb3B1cy1tdC1lbi16aCcsIGxvY2FsX2Rpcj0nb3B1cy1tdC1lbi16aCcpCnByaW50KCfkuIvovb3lrozmiJAnKQo=').decode())"
